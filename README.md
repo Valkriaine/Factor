@@ -1,6 +1,4 @@
-# Factor
-Custom library of Android views
-
+# Factor.HomePager
 
 HomePager is an implementation of Android ViewPager populated by Views/ViewGroups instead of fragments. 
 
