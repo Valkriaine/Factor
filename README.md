@@ -52,7 +52,7 @@ Add Views inside HomePager:
   </com.valkriaine.factor.HomePager>
    ```
    
-In MainActivity.java, add the views to include in the HomePager
+In MainActivity.java, add the views to include in the HomePager,
 simply pass in the view and its position
 ```java
 @Override
