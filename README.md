@@ -69,6 +69,5 @@ protected void onCreate(Bundle savedInstanceState) {
 or without its position, this will add the view at the next position available 
  ```java
     homePager.addView(findViewById(R.id.first_page));
-}
 
  ```
