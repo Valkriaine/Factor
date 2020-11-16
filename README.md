@@ -7,6 +7,7 @@ HomePager is an implementation of Android ViewPager populated by Views/ViewGroup
 
 
 
+
 Add HomePager to your project:
 
 In your project build.gradle:
