@@ -2,11 +2,11 @@
 
 HomePager is an implementation of Android ViewPager populated by Views/ViewGroups instead of fragments. 
 
-[HomePager details](HomePager.md)
+[HomePager usage](HomePager.md)
 
 BouncyRecyclerView is a custom RecyclerView that supports IOS style overscroll animation
 
-[BouncyRecyclerView details](BouncyRecyclerView.md)
+[BouncyRecyclerView usage](BouncyRecyclerView.md)
 
 
 <img src="./images/BouncyRecyclerViewDemo.gif"/>
