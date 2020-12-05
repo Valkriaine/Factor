@@ -14,7 +14,7 @@ Use as normal RecyclerView. Place it in your layout:
 ```
 
 ```fling_bounce_animation_size``` specifies the magnitude of overscroll effect for fling, default is 0.5 if no value is given
-```overscroll_bounce_animation_size``` specifies the magnitude of overscroll effect for drag overscroll, default is 0.5 if no value is given
+```overscroll_bounce_animation_size``` specifies the magnitude of overscroll effect for drag, default is 0.5 if no value is given
 
 set up layout manager and adapter: 
 ```java
