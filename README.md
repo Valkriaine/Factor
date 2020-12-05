@@ -1,6 +1,7 @@
 # Factor.Library
 
 HomePager is an implementation of Android ViewPager populated by Views/ViewGroups instead of fragments. 
+
 BouncyRecyclerView is a custom RecyclerView that supports IOS style overscroll animation
 
 
