@@ -1,2 +1,3 @@
-include ':HomePager'
+include ':factor_example'
+include ':Factor.Library'
 rootProject.name = "Factor"

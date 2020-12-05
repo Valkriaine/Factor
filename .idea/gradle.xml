@@ -10,7 +10,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/HomePager" />
+            <option value="$PROJECT_DIR$/Factor.Library" />
+            <option value="$PROJECT_DIR$/factor_example" />
           </set>
         </option>
       </GradleProjectSettings>
