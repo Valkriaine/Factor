@@ -33,52 +33,30 @@ In your app module build.gradle:
 
 
 Usage:
-
 BouncyRecyclerView: 
-Use as normal RecyclerView.
+
+<img src="./images/BouncyRecyclerViewDemo.gif"/>
 
 
 
 
-HomePager: 
-Add Views inside HomePager:
+Use as normal RecyclerView. Place it in your layout:
+
 ```xml
-<com.valkriaine.factor.HomePager
-                android:id="@+id/home_pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-  
-  
- <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/first_page"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-   
- <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/second_page"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-   
-  
-  </com.valkriaine.factor.HomePager>
-   ```
-   
-In MainActivity.java, add the views to include in the HomePager,
-simply pass in the view and its position
-```java
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    
-    HomePager homePager = findViewById(R.id.home_pager);
-    homePager.addView(findViewById(R.id.first_page), 0);
-    homePager.addView(findViewById(R.id.second_page), 1);
-}
+<com.valkriaine.factor.BouncyRecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:fling_bounce_animation_size=".5"
+        app:overscroll_bounce_animation_size=".5"/>
+```
 
- ```
-or without its position, this will add the view at the next position available 
- ```java
-    homePager.addView(findViewById(R.id.first_page));
+```fling_bounce_animation_size``` specifies the magnitude of overscroll effect for fling, default is 0.5 if no value is given
+```overscroll_bounce_animation_size``` specifies the magnitude of overscroll effect for drag overscroll, default is 0.5 if no value is given
 
- ```
+set up layout manager and adapter: 
+```kotlin
+   recycler_view.adapter = myAdapter
+   recycler_view.layoutManager = LinearLayoutManager(this)
+```
+
