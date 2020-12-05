@@ -17,8 +17,15 @@ Use as normal RecyclerView. Place it in your layout:
 ```overscroll_bounce_animation_size``` specifies the magnitude of overscroll effect for drag overscroll, default is 0.5 if no value is given
 
 set up layout manager and adapter: 
-```kotlin
-   recycler_view.adapter = myAdapter
-   recycler_view.layoutManager = LinearLayoutManager(this)
+```java
+   recycler_view.setAdapter(myAdapter)
+   recycler_view.setLayoutManager(new LinearLayoutManager(this))
 ```
 
+Make sure your ViewHolder extends BouncyViewHolder:
+```java
+   class MyViewHolder extends BouncyViewHolder
+   {
+        ...
+   }
+```
