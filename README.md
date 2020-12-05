@@ -1,6 +1,8 @@
-# Factor.HomePager
+# Factor.Library
 
 HomePager is an implementation of Android ViewPager populated by Views/ViewGroups instead of fragments. 
+BouncyRecyclerView is a custom RecyclerView that supports IOS style overscroll animation
+
 
 
 [![](https://jitpack.io/v/Valkriaine/Factor.svg)](https://jitpack.io/#Valkriaine/Factor)
@@ -8,7 +10,7 @@ HomePager is an implementation of Android ViewPager populated by Views/ViewGroup
 
 
 
-Add HomePager to your project:
+Add Factor.Library to your project:
 
 In your project build.gradle:
 ```gradle
@@ -31,9 +33,8 @@ In your app module build.gradle:
 
 Usage:
 
-BouncyRecyclerView
-Use as normal RecyclerView
-more details upcoming
+BouncyRecyclerView: 
+Use as normal RecyclerView.
 
 
 
