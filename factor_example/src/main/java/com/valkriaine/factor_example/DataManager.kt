@@ -6,8 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.valkriaine.factor.BouncyViewHolder
-
 
 
 class DataManager
@@ -53,7 +51,7 @@ class DataManager
         }
 
 
-        class DataViewHolder(itemView: View) : BouncyViewHolder(itemView)
+        class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
         {
             private val dataText : TextView = itemView.findViewById(R.id.data)
 

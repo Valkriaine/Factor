@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.widget.EdgeEffect
+import androidx.dynamicanimation.animation.SpringAnimation
+import androidx.dynamicanimation.animation.SpringForce
 import androidx.recyclerview.widget.RecyclerView
 
 
@@ -14,14 +16,18 @@ class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
 
     var flingAnimationSize = 0.4f
 
-    inline fun <reified T : ViewHolder> RecyclerView.forEachVisibleHolder(action: (T) -> Unit)
-    {
-        for (i in 0 until childCount)
-        {
-            action(getChildViewHolder(getChildAt(i)) as T)
-        }
+    var currentVelocity = 0f
 
-    }
+    val rc : RecyclerView
+
+    val spring: SpringAnimation = SpringAnimation(this, SpringAnimation.TRANSLATION_Y)
+        .setSpring(
+            SpringForce()
+                .setFinalPosition(0f)
+                .setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY)
+                .setStiffness(SpringForce.STIFFNESS_LOW)
+        )
+        .addUpdateListener { _, _, velocity -> currentVelocity = velocity }
 
     init {
 
@@ -38,6 +44,7 @@ class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
             }
         }
 
+        rc = this
 
         //create edge effect
         this.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory()
@@ -46,47 +53,45 @@ class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
             {
                 return object : EdgeEffect(recyclerView.context)
                 {
-
                     override fun onPull(deltaDistance: Float)
                     {
                         super.onPull(deltaDistance)
-                        handlePull(deltaDistance)
+                        onPullAnimation(deltaDistance)
                     }
 
                     override fun onPull(deltaDistance: Float, displacement: Float)
                     {
                         super.onPull(deltaDistance, displacement)
-                        handlePull(deltaDistance)
+                        onPullAnimation(deltaDistance)
                     }
 
-                    private fun handlePull(deltaDistance: Float)
+                    private fun onPullAnimation(deltaDistance: Float)
                     {
-                        val sign = if (direction == DIRECTION_BOTTOM) -1 else 1
-                        val translationYDelta =
-                            sign * recyclerView.width * deltaDistance * overscrollAnimationSize
-                        recyclerView.forEachVisibleHolder { holder: BouncyViewHolder ->
-                            holder.translationY.cancel()
-                            holder.itemView.translationY += translationYDelta
-                        }
+                        val delta =
+                            if (direction == DIRECTION_BOTTOM)
+                            -1 * recyclerView.width * deltaDistance * overscrollAnimationSize
+                            else 1 * recyclerView.width * deltaDistance * overscrollAnimationSize
+                        spring.cancel()
+                        rc.translationY += delta
                     }
 
                     override fun onRelease()
                     {
                         super.onRelease()
-                        recyclerView.forEachVisibleHolder{ holder: BouncyViewHolder -> holder.translationY.start() }
+                        spring.start()
                     }
 
                     override fun onAbsorb(velocity: Int)
                     {
                         super.onAbsorb(velocity)
-                        val sign = if (direction == DIRECTION_BOTTOM) -1 else 1
-                        val translationVelocity = sign * velocity * flingAnimationSize
-                        recyclerView.forEachVisibleHolder { holder: BouncyViewHolder -> holder.translationY.setStartVelocity(translationVelocity).start() }
+                        val v =
+                            if (direction == DIRECTION_BOTTOM) -1 * velocity * flingAnimationSize
+                            else 1 * velocity * flingAnimationSize
+                        spring.setStartVelocity(v).start()
                     }
 
                     override fun draw(canvas: Canvas?): Boolean
                     {
-                        //hide overscroll glow effect
                         setSize(0, 0)
                         return super.draw(canvas)
                     }
