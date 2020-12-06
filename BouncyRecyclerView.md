@@ -22,10 +22,4 @@ set up layout manager and adapter:
    recycler_view.setLayoutManager(new LinearLayoutManager(this))
 ```
 
-Make sure your ViewHolder extends BouncyViewHolder:
-```java
-   class MyViewHolder extends BouncyViewHolder
-   {
-        ...
-   }
-```
+
