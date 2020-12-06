@@ -1,14 +1,20 @@
-# Factor.HomePager
+# Factor.Library
 
 HomePager is an implementation of Android ViewPager populated by Views/ViewGroups instead of fragments. 
+
+[HomePager usage](HomePager.md)
+
+BouncyRecyclerView is a custom RecyclerView that supports IOS style overscroll animation
+
+[BouncyRecyclerView usage](BouncyRecyclerView.md)
+
+
+<img src="./images/BouncyRecyclerViewDemo.gif"/>
 
 
 [![](https://jitpack.io/v/Valkriaine/Factor.svg)](https://jitpack.io/#Valkriaine/Factor)
 
-
-
-
-Add HomePager to your project:
+Add Factor.Library to your project:
 
 In your project build.gradle:
 ```gradle
@@ -24,51 +30,6 @@ In your project build.gradle:
 In your app module build.gradle:
 ```
    dependencies {
-        implementation 'com.github.Valkriaine:Factor:1.1'
+        implementation 'com.github.Valkriaine:Factor:1.2'
    }
- ```
-
-
-Usage:
-
-Add Views inside HomePager:
-```xml
-<com.valkriaine.factor.HomePager
-                android:id="@+id/home_pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-  
-  
- <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/first_page"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-   
- <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/second_page"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-   
-  
-  </com.valkriaine.factor.HomePager>
-   ```
-   
-In MainActivity.java, add the views to include in the HomePager,
-simply pass in the view and its position
-```java
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    
-    HomePager homePager = findViewById(R.id.home_pager);
-    homePager.addView(findViewById(R.id.first_page), 0);
-    homePager.addView(findViewById(R.id.second_page), 1);
-}
-
- ```
-or without its position, this will add the view at the next position available 
- ```java
-    homePager.addView(findViewById(R.id.first_page));
-
  ```
