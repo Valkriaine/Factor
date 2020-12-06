@@ -18,14 +18,8 @@ Use as normal RecyclerView. Place it in your layout:
 
 set up layout manager and adapter: 
 ```java
-   recycler_view.setAdapter(myAdapter)
-   recycler_view.setLayoutManager(new LinearLayoutManager(this))
+   recycler_view.setAdapter(myAdapter);
+   recycler_view.setLayoutManager(new LinearLayoutManager(context));
 ```
 
-Make sure your ViewHolder extends BouncyViewHolder:
-```java
-   class MyViewHolder extends BouncyViewHolder
-   {
-        ...
-   }
-```
+
