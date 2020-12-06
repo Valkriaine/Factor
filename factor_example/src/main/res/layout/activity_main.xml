@@ -11,8 +11,8 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:fling_bounce_animation_size=".5"
-        app:overscroll_bounce_animation_size=".5"/>
+        app:fling_bounce_animation_size="1"
+        app:overscroll_bounce_animation_size="1"/>
 
 
 

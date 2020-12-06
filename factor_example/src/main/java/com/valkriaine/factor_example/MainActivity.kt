@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         recycler_view.adapter = dataManager.adapter
         recycler_view.layoutManager = LinearLayoutManager(this)
 
-        dataManager.generateData(10)
+        dataManager.generateData(300)
 
     }
 }
