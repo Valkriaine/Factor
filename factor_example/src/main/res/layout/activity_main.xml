@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:fling_bounce_animation_size="1"
-        app:overscroll_bounce_animation_size="1"/>
-
-
+        app:overscroll_bounce_animation_size="1"
+        app:allow_drag_reorder="true"
+        app:allow_item_swipe="true"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

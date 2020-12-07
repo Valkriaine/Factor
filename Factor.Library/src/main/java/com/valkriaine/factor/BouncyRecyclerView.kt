@@ -6,28 +6,57 @@ import android.util.AttributeSet
 import android.widget.EdgeEffect
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.valkriaine.factor.bouncyRecyclerViewUtil.DragDropAdapter
+import com.valkriaine.factor.bouncyRecyclerViewUtil.DragDropCallBack
+import java.util.*
+
 
 
 class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs)
 {
+    private lateinit var callBack: DragDropCallBack
 
     var overscrollAnimationSize = 0.5f
 
-    var flingAnimationSize = 0.4f
+    var flingAnimationSize = 0.5f
 
-    var currentVelocity = 0f
+    @Suppress("MemberVisibilityCanBePrivate")
+    var longPressDragEnabled = false
+        set(value)
+        {
+            field = value
+            if (adapter is DragDropAdapter) callBack.setDragEnabled(value)
+        }
 
-    val rc : RecyclerView
+    @Suppress("MemberVisibilityCanBePrivate")
+    var itemSwipeEnabled = false
+        set(value)
+        {
+            field = value
+            if (adapter is DragDropAdapter) callBack.setSwipeEnabled(value)
+        }
 
     val spring: SpringAnimation = SpringAnimation(this, SpringAnimation.TRANSLATION_Y)
         .setSpring(
             SpringForce()
-                .setFinalPosition(0f)
-                .setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY)
-                .setStiffness(SpringForce.STIFFNESS_LOW)
+            .setFinalPosition(0f)
+            .setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY)
+            .setStiffness(SpringForce.STIFFNESS_LOW)
         )
-        .addUpdateListener { _, _, velocity -> currentVelocity = velocity }
+
+    override fun setAdapter(adapter: RecyclerView.Adapter<*>?)
+    {
+        super.setAdapter(adapter)
+
+        if (adapter is DragDropAdapter)
+        {
+            callBack = DragDropCallBack(adapter, longPressDragEnabled, itemSwipeEnabled)
+            val touchHelper = ItemTouchHelper(callBack)
+            touchHelper.attachToRecyclerView(this)
+        }
+    }
 
     init {
 
@@ -37,6 +66,8 @@ class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
             try {
                 overscrollAnimationSize = getFloat(R.styleable.BouncyRecyclerView_overscroll_bounce_animation_size, 0.5f)
                 flingAnimationSize = getFloat(R.styleable.BouncyRecyclerView_fling_bounce_animation_size, 0.5f)
+                longPressDragEnabled = getBoolean(R.styleable.BouncyRecyclerView_allow_drag_reorder, false)
+                itemSwipeEnabled = getBoolean(R.styleable.BouncyRecyclerView_allow_item_swipe, false)
             }
             finally
             {
@@ -44,7 +75,7 @@ class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
             }
         }
 
-        rc = this
+        val rc = this
 
         //create edge effect
         this.edgeEffectFactory = object : RecyclerView.EdgeEffectFactory()
@@ -95,6 +126,29 @@ class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
                         setSize(0, 0)
                         return super.draw(canvas)
                     }
+                }
+            }
+        }
+    }
+
+
+
+    abstract class Adapter(private val dataSet: MutableList<*>) : RecyclerView.Adapter<ViewHolder>(), DragDropAdapter
+    {
+        override fun onItemMoved(fromPosition: Int, toPosition: Int)
+        {
+            if (fromPosition < toPosition)
+            {
+                for (i in fromPosition until toPosition)
+                {
+                    Collections.swap(dataSet, i, i + 1)
+                }
+            }
+            else
+            {
+                for (i in fromPosition downTo toPosition + 1)
+                {
+                    Collections.swap(dataSet, i, i - 1)
                 }
             }
         }

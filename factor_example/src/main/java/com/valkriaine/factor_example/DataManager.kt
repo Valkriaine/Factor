@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.valkriaine.factor.BouncyRecyclerView
+import kotlin.collections.ArrayList
 
 
 class DataManager
@@ -14,13 +16,7 @@ class DataManager
 
     val adapter = Adapter(dataList)
 
-    fun addData()
-    {
-        dataList.add(Data("data: " + (dataList.size + 1)))
-        adapter.notifyDataSetChanged()
-    }
-
-    fun generateData(size : Int)
+    fun generateData(size: Int)
     {
         for(i in 0..size)
         {
@@ -29,20 +25,45 @@ class DataManager
         adapter.notifyDataSetChanged()
     }
 
-
-
-
-    class Adapter(private val list: ArrayList<Data>) : RecyclerView.Adapter<Adapter.DataViewHolder>()
+    class Adapter(private val list: ArrayList<Data>) : BouncyRecyclerView.Adapter(list)
     {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
         {
             val item = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
             return DataViewHolder(item)
         }
 
-        override fun onBindViewHolder(holder: DataViewHolder, position: Int)
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int)
         {
-            holder.bind(list[position])
+            (holder as DataViewHolder).bind(list[position])
+        }
+
+        override fun onItemMoved(fromPosition: Int, toPosition: Int)
+        {
+
+        }
+
+        override fun onItemSwipedFromStart(viewHolder: RecyclerView.ViewHolder?, position: Int)
+        {
+            list[position].data += " swiped from start"
+            notifyItemChanged(position)
+        }
+
+        override fun onItemSwipedFromEnd(viewHolder: RecyclerView.ViewHolder?, position: Int)
+        {
+            list[position].data += " swiped from end"
+            notifyItemChanged(position)
+        }
+
+        override fun onItemSelected(viewHolder: RecyclerView.ViewHolder?)
+        {
+            (viewHolder as DataViewHolder).background.alpha = 0.5F
+        }
+
+        override fun onItemReleased(viewHolder: RecyclerView.ViewHolder?)
+        {
+            (viewHolder as DataViewHolder).background.alpha = 1F
         }
 
         override fun getItemCount(): Int
@@ -50,17 +71,17 @@ class DataManager
             return list.size
         }
 
-
         class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
         {
             private val dataText : TextView = itemView.findViewById(R.id.data)
+            val background: ConstraintLayout = itemView.findViewById(R.id.background)
 
             fun bind(item: Data) = with(itemView)
             {
                 dataText.text = item.data
                 itemView.setOnClickListener()
                 {
-                    Toast.makeText(context, item.data + " clicked", Toast.LENGTH_SHORT).show()
+                    dataText.text = item.data + " clicked"
                 }
             }
         }
