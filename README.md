@@ -9,7 +9,7 @@ BouncyRecyclerView is a custom RecyclerView that supports IOS style overscroll a
 [BouncyRecyclerView usage](BouncyRecyclerView.md)
 
 
-<img src="./images/BouncyRecyclerViewDemo.gif"/>
+<img src="./images/BouncyRecyclerViewDemo.gif"/> <img src="./images/reorder_and_swipe.gif"/>
 
 
 [![](https://jitpack.io/v/Valkriaine/Factor.svg)](https://jitpack.io/#Valkriaine/Factor)
@@ -30,7 +30,7 @@ In your project build.gradle:
 In your app module build.gradle:
 ```
    dependencies {
-        implementation 'com.github.Valkriaine:Factor:1.3'
+        implementation 'com.github.Valkriaine:Factor:1.4'
    }
  ```
 
