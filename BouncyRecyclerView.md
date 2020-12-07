@@ -1,4 +1,4 @@
-BouncyRecyclerView adds overscroll effect to RecyclerView
+BouncyRecyclerView adds overscroll effect to RecyclerView and supports drag & drop and swiping gestures
 
 <img src="./images/BouncyRecyclerViewDemo.gif"/> <img src="./images/reorder_and_swipe.gif"/>
 
