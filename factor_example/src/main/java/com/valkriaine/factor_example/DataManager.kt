@@ -44,13 +44,13 @@ class DataManager
 
         }
 
-        override fun onItemSwipedFromStart(viewHolder: RecyclerView.ViewHolder?, position: Int)
+        override fun onItemSwipedToStart(viewHolder: RecyclerView.ViewHolder?, position: Int)
         {
             list[position].data += " swiped left"
             notifyItemChanged(position)
         }
 
-        override fun onItemSwipedFromEnd(viewHolder: RecyclerView.ViewHolder?, position: Int)
+        override fun onItemSwipedToEnd(viewHolder: RecyclerView.ViewHolder?, position: Int)
         {
             list[position].data += " swiped right"
             notifyItemChanged(position)

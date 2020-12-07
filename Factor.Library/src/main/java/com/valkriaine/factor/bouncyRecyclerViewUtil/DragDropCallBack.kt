@@ -25,9 +25,9 @@ class DragDropCallBack(private val adapter: RecyclerView.Adapter<*>,
         if (isItemViewSwipeEnabled && adapter is DragDropAdapter)
         {
             if (i == ItemTouchHelper.START)
-                adapter.onItemSwipedFromStart(viewHolder, viewHolder.adapterPosition)
+                adapter.onItemSwipedToStart(viewHolder, viewHolder.adapterPosition)
             else if (i == ItemTouchHelper.END)
-                adapter.onItemSwipedFromEnd(viewHolder, viewHolder.adapterPosition)
+                adapter.onItemSwipedToEnd(viewHolder, viewHolder.adapterPosition)
         }
 
     }
