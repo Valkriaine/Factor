@@ -29,6 +29,7 @@ set up layout manager and adapter:
 
 
 For drag & drop or swipe gestures to work, make your adapter extend ```BouncyRecyclerView.Adapter``` and add constructor matching parent.
+(If your adapter does not extend BouncyRecyclerView.Adapter, BouncyRecyclerView will simply disable the gestures)
 ```java
 public class MyAdapter extends BouncyRecyclerView.Adapter
 {
