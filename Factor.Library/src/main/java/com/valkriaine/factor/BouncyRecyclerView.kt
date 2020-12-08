@@ -131,7 +131,7 @@ class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
     }
 
 
-    abstract class Adapter : RecyclerView.Adapter<ViewHolder>(), DragDropAdapter
+    abstract class Adapter: RecyclerView.Adapter<ViewHolder>(), DragDropAdapter
 }
 
 

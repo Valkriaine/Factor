@@ -7,14 +7,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.valkriaine.factor.BouncyRecyclerView;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 /**
-public class MyAdapter extends BouncyRecyclerView.Adapter<MyData>
+public class MyAdapter extends BouncyRecyclerView.Adapter
 {
     private final ArrayList<MyData> dataSet;
 
-    public MyAdapter(@NotNull ArrayList<MyData> dataSet)
+    public MyAdapter(ArrayList<MyData> dataSet)
     {
-        super(dataSet);
         this.dataSet = dataSet;
     }
 
@@ -41,8 +42,12 @@ public class MyAdapter extends BouncyRecyclerView.Adapter<MyData>
     @Override
     public void onItemMoved(int fromPosition, int toPosition)
     {
-        super.onItemMoved(fromPosition, toPosition);
         //called repeatedly when item is dragged (reordered)
+
+        //example
+        MyData item = dataSet.remove(fromPosition);
+        dataSet.add(toPosition, item);
+        notifyItemMoved(fromPosition, toPosition);
     }
 
     @Override

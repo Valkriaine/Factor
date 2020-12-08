@@ -44,7 +44,7 @@ class DragDropCallBack(private val adapter: RecyclerView.Adapter<*>,
         return if (isLongPressDragEnabled && adapter is DragDropAdapter)
         {
             adapter.onItemMoved(viewHolder.adapterPosition, target.adapterPosition)
-            //adapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
+            adapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
             true
         }
         else
