@@ -2,6 +2,7 @@ package com.valkriaine.factor_example
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -16,7 +17,7 @@ class MainActivity : AppCompatActivity()
 
         val dataManager = DataManager()
         recycler_view.adapter = dataManager.adapter
-        recycler_view.layoutManager = LinearLayoutManager(this)
+        recycler_view.layoutManager = GridLayoutManager(this, 3)
         dataManager.generateData(150)
     }
 }

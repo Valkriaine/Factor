@@ -25,9 +25,8 @@ class DataManager
         adapter.notifyDataSetChanged()
     }
 
-    class Adapter(private val list: ArrayList<Data>) : BouncyRecyclerView.Adapter(list)
+    class Adapter(private val list: ArrayList<Data>) : BouncyRecyclerView.Adapter()
     {
-
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
         {
             val item = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
@@ -41,19 +40,21 @@ class DataManager
 
         override fun onItemMoved(fromPosition: Int, toPosition: Int)
         {
-
+            val item = list.removeAt(fromPosition)
+            list.add(toPosition, item)
+            notifyItemMoved(fromPosition, toPosition)
         }
 
-        override fun onItemSwipedToStart(viewHolder: RecyclerView.ViewHolder?, position: Int)
+        override fun onItemSwipedToStart(viewHolder: RecyclerView.ViewHolder?, positionOfItem: Int)
         {
-            list[position].data += " swiped left"
-            notifyItemChanged(position)
+            list[positionOfItem].data += " swiped left"
+            notifyItemChanged(positionOfItem)
         }
 
-        override fun onItemSwipedToEnd(viewHolder: RecyclerView.ViewHolder?, position: Int)
+        override fun onItemSwipedToEnd(viewHolder: RecyclerView.ViewHolder?, positionOfItem: Int)
         {
-            list[position].data += " swiped right"
-            notifyItemChanged(position)
+            list[positionOfItem].data += " swiped right"
+            notifyItemChanged(positionOfItem)
         }
 
         override fun onItemSelected(viewHolder: RecyclerView.ViewHolder?)

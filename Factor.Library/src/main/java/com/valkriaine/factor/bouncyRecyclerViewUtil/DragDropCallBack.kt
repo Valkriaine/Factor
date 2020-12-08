@@ -34,7 +34,7 @@ class DragDropCallBack(private val adapter: RecyclerView.Adapter<*>,
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int
     {
-        val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+        val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
         return makeMovementFlags(dragFlags, swipeFlags)
     }
@@ -44,7 +44,7 @@ class DragDropCallBack(private val adapter: RecyclerView.Adapter<*>,
         return if (isLongPressDragEnabled && adapter is DragDropAdapter)
         {
             adapter.onItemMoved(viewHolder.adapterPosition, target.adapterPosition)
-            adapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
+            //adapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
             true
         }
         else

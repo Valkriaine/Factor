@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.valkriaine.factor.bouncyRecyclerViewUtil.DragDropAdapter
 import com.valkriaine.factor.bouncyRecyclerViewUtil.DragDropCallBack
-import java.util.*
-
+import kotlin.collections.ArrayList
 
 
 class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs)
@@ -132,27 +131,7 @@ class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
     }
 
 
-
-    abstract class Adapter(private val dataSet: MutableList<*>) : RecyclerView.Adapter<ViewHolder>(), DragDropAdapter
-    {
-        override fun onItemMoved(fromPosition: Int, toPosition: Int)
-        {
-            if (fromPosition < toPosition)
-            {
-                for (i in fromPosition until toPosition)
-                {
-                    Collections.swap(dataSet, i, i + 1)
-                }
-            }
-            else
-            {
-                for (i in fromPosition downTo toPosition + 1)
-                {
-                    Collections.swap(dataSet, i, i - 1)
-                }
-            }
-        }
-    }
+    abstract class Adapter : RecyclerView.Adapter<ViewHolder>(), DragDropAdapter
 }
 
 
