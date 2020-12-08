@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.valkriaine.factor.bouncyRecyclerViewUtil.DragDropAdapter
 import com.valkriaine.factor.bouncyRecyclerViewUtil.DragDropCallBack
-import kotlin.collections.ArrayList
 
 
 class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs)

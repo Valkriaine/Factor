@@ -29,7 +29,6 @@ class DragDropCallBack(private val adapter: RecyclerView.Adapter<*>,
             else if (i == ItemTouchHelper.END)
                 adapter.onItemSwipedToEnd(viewHolder, viewHolder.adapterPosition)
         }
-
     }
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int
@@ -44,7 +43,6 @@ class DragDropCallBack(private val adapter: RecyclerView.Adapter<*>,
         return if (isLongPressDragEnabled && adapter is DragDropAdapter)
         {
             adapter.onItemMoved(viewHolder.adapterPosition, target.adapterPosition)
-            adapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
             true
         }
         else
@@ -56,7 +54,6 @@ class DragDropCallBack(private val adapter: RecyclerView.Adapter<*>,
         if (actionState != ItemTouchHelper.ACTION_STATE_IDLE && adapter is DragDropAdapter)
         {
             adapter.onItemSelected(viewHolder)
-
         }
         super.onSelectedChanged(viewHolder, actionState)
     }

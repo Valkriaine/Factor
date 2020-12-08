@@ -10,8 +10,8 @@
 
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/data"
-            android:minWidth="30dp"
-            android:minHeight="30dp"
+            android:minWidth="50dp"
+            android:minHeight="50dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             layout_constraintEnd_toEndOf="parent"
