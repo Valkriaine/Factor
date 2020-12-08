@@ -67,7 +67,7 @@ public class MyAdapter extends BouncyRecyclerView.Adapter
         //*****must override to save changes 
         //called repeatedly when item is dragged (reordered)
         
-        //example 
+        //example of handling reorder
         MyData item = dataSet.remove(fromPosition);
         dataSet.add(toPosition, item);
         notifyItemMoved(fromPosition, toPosition);
