@@ -15,10 +15,11 @@ Use as normal RecyclerView. Place it in your layout:
         app:allow_item_swipe="false"/>
 ```
 
-set up layout manager and adapter: 
+set up layout manager and adapter. Theoratically supports any LayoutManager: 
 ```java
    recycler_view.setAdapter(myAdapter);
    recycler_view.setLayoutManager(new LinearLayoutManager(context));
+   //recycler_view.setLayoutManager(new GridLayoutManager(context, 3));
 ```
 
 ```fling_bounce_animation_size``` specifies the magnitude of overscroll effect for fling, default is 0.5 if no value is given
@@ -33,52 +34,67 @@ For drag & drop or swipe gestures to work, make your adapter extend ```BouncyRec
 ```java
 public class MyAdapter extends BouncyRecyclerView.Adapter
 {
-    private ArrayList<Data> dataList;
+    private final ArrayList<MyData> dataSet;
 
-    // constructor matching parent
-    public MyAdapter(ArrayList<Data> dataList)
+    public MyAdapter(ArrayList<MyData> dataSet)
     {
-        super(dataList);
-        this.dataList = dataList;
-    }
-    
-    // override onCreateViewHolder, onBindViewHolder, and getItemCount as usual
-    
-    
-    // override item touch callbacks: 
-    
-    @Override
-    public void onItemSwipedToStart(@Nullable RecyclerView.ViewHolder viewHolder, int position)
-    {
-        //swiped to start (to left)
+        this.dataSet = dataSet;
     }
 
     @Override
-    public void onItemSwipedToEnd(@Nullable RecyclerView.ViewHolder viewHolder, int position)
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        //swiped to end (to right)
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+        return new MyViewHolder(view);
     }
 
     @Override
-    public void onItemSelected(@Nullable RecyclerView.ViewHolder viewHolder)
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
-        //when item is long pressed
+        MyViewHolder h = (MyViewHolder) holder;
+        h.getTextView().setText(dataSet.get(position).getData());
     }
 
     @Override
-    public void onItemReleased(@Nullable RecyclerView.ViewHolder viewHolder)
+    public int getItemCount()
     {
-        //when item is released
+        return dataSet.size();
     }
 
-    
-    // ********must override this if you want to save your data after reorder
     @Override
     public void onItemMoved(int fromPosition, int toPosition)
     {
-        super.onItemMoved(fromPosition, toPosition);
-        //repeatedly called when item is dragged
+        //*****must override to save changes 
+        //called repeatedly when item is dragged (reordered)
+        
+        //example of handling reorder
+        MyData item = dataSet.remove(fromPosition);
+        dataSet.add(toPosition, item);
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onItemSwipedToStart(RecyclerView.ViewHolder viewHolder, int position)
+    {
+        //item swiped left
+    }
+
+    @Override
+    public void onItemSwipedToEnd(RecyclerView.ViewHolder viewHolder, int position)
+    {
+        //item swiped right
+    }
+
+    @Override
+    public void onItemSelected(RecyclerView.ViewHolder viewHolder)
+    {
+        //item long pressed (selected)
+    }
+
+    @Override
+    public void onItemReleased(RecyclerView.ViewHolder viewHolder)
+    {
+        //item released (unselected)
     }
 }
 ```
-Note that onItemMoved() will not be added when you alt-enter to implement methods. You must manually override onItemMoved() to save the reordered data set with drag & drop, otherwise RecyclerView would not persist the changes.
