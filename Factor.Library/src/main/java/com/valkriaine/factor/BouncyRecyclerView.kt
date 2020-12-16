@@ -8,13 +8,17 @@ import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.valkriaine.factor.bouncyRecyclerViewUtil.BouncyViewHolder
 import com.valkriaine.factor.bouncyRecyclerViewUtil.DragDropAdapter
 import com.valkriaine.factor.bouncyRecyclerViewUtil.DragDropCallBack
+import com.valkriaine.factor.bouncyRecyclerViewUtil.OnOverPullListener
 
 
 class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(context, attrs)
 {
     private lateinit var callBack: DragDropCallBack
+
+    private var onOverPullListener: OnOverPullListener? = null
 
     var overscrollAnimationSize = 0.5f
 
@@ -44,6 +48,11 @@ class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
             .setStiffness(SpringForce.STIFFNESS_LOW)
         )
 
+    fun addOnOverPulledListener(onOverPullListener: OnOverPullListener)
+    {
+        this.onOverPullListener = onOverPullListener
+    }
+
     override fun setAdapter(adapter: RecyclerView.Adapter<*>?)
     {
         super.setAdapter(adapter)
@@ -54,6 +63,12 @@ class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
             val touchHelper = ItemTouchHelper(callBack)
             touchHelper.attachToRecyclerView(this)
         }
+    }
+
+
+    inline fun <reified T : ViewHolder> RecyclerView.forEachVisibleHolder(action: (T) -> Unit)
+    {
+        for (i in 0 until childCount) action(getChildViewHolder(getChildAt(i)) as T)
     }
 
     init {
@@ -92,6 +107,10 @@ class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
                     {
                         super.onPull(deltaDistance, displacement)
                         onPullAnimation(deltaDistance)
+                        if (direction == DIRECTION_BOTTOM)
+                            onOverPullListener?.onOverPulledBottom(deltaDistance)
+                        else if (direction == DIRECTION_TOP)
+                            onOverPullListener?.onOverPulledTop(deltaDistance)
                     }
 
                     private fun onPullAnimation(deltaDistance: Float)
@@ -102,12 +121,17 @@ class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
                             else 1 * recyclerView.width * deltaDistance * overscrollAnimationSize
                         spring.cancel()
                         rc.translationY += delta
+
+                        forEachVisibleHolder{holder: ViewHolder? -> if (holder is BouncyViewHolder)holder.onPulled(deltaDistance)}
                     }
 
                     override fun onRelease()
                     {
                         super.onRelease()
+                        onOverPullListener?.onRelease()
                         spring.start()
+
+                        forEachVisibleHolder{holder: ViewHolder? -> if (holder is BouncyViewHolder)holder.onRelease()}
                     }
 
                     override fun onAbsorb(velocity: Int)
@@ -117,6 +141,8 @@ class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
                             if (direction == DIRECTION_BOTTOM) -1 * velocity * flingAnimationSize
                             else 1 * velocity * flingAnimationSize
                         spring.setStartVelocity(v).start()
+
+                        forEachVisibleHolder{holder: ViewHolder? -> if (holder is BouncyViewHolder)holder.onAbsorb(velocity)}
                     }
 
                     override fun draw(canvas: Canvas?): Boolean
@@ -128,7 +154,6 @@ class BouncyRecyclerView(context: Context, attrs: AttributeSet?) : RecyclerView(
             }
         }
     }
-
 
     abstract class Adapter: RecyclerView.Adapter<ViewHolder>(), DragDropAdapter
 }

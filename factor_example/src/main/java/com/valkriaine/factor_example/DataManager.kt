@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.valkriaine.factor.BouncyRecyclerView
+import com.valkriaine.factor.bouncyRecyclerViewUtil.BouncyViewHolder
 import kotlin.collections.ArrayList
 
 
@@ -72,10 +73,12 @@ class DataManager
             return list.size
         }
 
-        class DataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+        class DataViewHolder(itemView: View) : BouncyViewHolder(itemView)
         {
             private val dataText : TextView = itemView.findViewById(R.id.data)
+
             val background: ConstraintLayout = itemView.findViewById(R.id.background)
+
 
             fun bind(item: Data) = with(itemView)
             {
@@ -84,6 +87,21 @@ class DataManager
                 {
                     dataText.text = item.data + " clicked"
                 }
+            }
+
+            override fun onPulled(delta: Float)
+            {
+                background.scaleY = background.scaleY - delta
+            }
+
+            override fun onRelease()
+            {
+                background.scaleY = 1f
+            }
+
+            override fun onAbsorb(velocity: Int)
+            {
+
             }
         }
 
