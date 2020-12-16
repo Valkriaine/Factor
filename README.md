@@ -30,7 +30,7 @@ In your project build.gradle:
 In your app module build.gradle:
 ```
    dependencies {
-        implementation 'com.github.Valkriaine:Factor:1.7'
+        implementation 'com.github.Valkriaine:Factor:1.8'
    }
  ```
 
